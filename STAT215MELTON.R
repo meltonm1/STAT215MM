@@ -12,8 +12,9 @@ library("dplyr")
 library("haven")
 library("psych")
 library("ggplot2")
+
 # Load the data
-data <- read.csv("raw_data.csv")
+raw_data <- read.csv("raw_data.csv")
 dataset <- na.omit(raw_data)
 View(dataset)
 ##################################################################################
@@ -47,25 +48,73 @@ summary(anova)
 ##################################################################################
 ####################   Figure 2: scatter plot             ####################   
 ##################################################################################
-plot(dataset$transportation,dataset$graduation)
+plot(dataset$percent_of._low_income_students,dataset$graduation)
 
-meanx <- mean(dataset$graduation)
-meany <- mean(dataset$transportation)
-abline(h = meanx, col = "black")
-abline(v = meany, col = "black")
-linear_relationship <- lm(transportation ~ graduation, data = dataset)
+meany <- mean(dataset$graduation)
+meanx <- mean(dataset$percent_of._low_income_students)
+abline(h = meany, col = "black")
+abline(v = meanx, col = "black")
+linear_relationship <- lm(graduation ~ percent_of._low_income_students, data = dataset)
 summary(linear_relationship)
 abline(linear_relationship, col = "red")
+
+# Scatter Plot with Linear Regression Line
+# Ensure the dataset is loaded
+# Example: dataset <- read.csv("your_data.csv")
+
+# Fit a linear regression model
+linear_model <- lm(graduation ~ percent_of._low_income_students, data = dataset)
+
+# Calculate means for reference lines
+mean_x <- mean(dataset$percent_of._low_income_students, na.rm = TRUE)
+mean_y <- mean(dataset$graduation, na.rm = TRUE)
+
+# Create the scatter plot
+plot(dataset$percent_of._low_income_students, dataset$graduation,
+     main = "Figure 1",
+     xlab = "% Low-Income Students",
+     ylab = "Graduation Rates",
+     pch = 19, col = "blue") # Add points with style
+
+# Add regression line
+abline(linear_model, col = "red", lwd = 2) # Regression line in red
+
+# Add mean lines
+abline(h = mean_y, col = "black", lty = 2) # Horizontal line for mean Graduation Rate
+abline(v = mean_x, col = "gray", lty = 2)  # Vertical line for mean % Low-Income Students
+
+
 
 
 ##################################################################################
 ####################  Figure 3: residual plot                ####################   
 ##################################################################################
 # Plot the residuals
-plot(dataset$transportation, residuals(linear_relationship))
+plot(dataset$percent_of._low_income_students, residuals(linear_relationship))
 
 # Add a horizontal line at zero to indicate the baseline
 abline(h = 0, col = "red")
+
+# Ensure the dataset is loaded
+# Example: dataset <- read.csv("your_data.csv")
+
+# Fit the linear regression model
+linear_model <- lm(graduation ~ percent_of._low_income_students, data = dataset)
+
+# Extract residuals and independent variable
+residuals <- resid(linear_model)
+independent_variable <- dataset$percent_of._low_income_students
+
+# Plot the residuals
+plot(independent_variable, residuals,
+     main = "Figure 2: Scatter Plot of % of Low-Income Students and Residuals from Regression Analysis.",
+     xlab = "% Low-Income Students",
+     ylab = "Graduation Rate",
+     pch = 19, col = "blue")
+
+# Add a horizontal line at zero for reference
+abline(h = 0, col = "red", lty = 2, lwd = 2) # Red dashed line for baseline
+
 
 
 ##################################################################################
