@@ -48,16 +48,6 @@ summary(anova)
 ##################################################################################
 ####################   Figure 2: scatter plot             ####################   
 ##################################################################################
-plot(dataset$percent_of._low_income_students,dataset$graduation)
-
-meany <- mean(dataset$graduation)
-meanx <- mean(dataset$percent_of._low_income_students)
-abline(h = meany, col = "black")
-abline(v = meanx, col = "black")
-linear_relationship <- lm(graduation ~ percent_of._low_income_students, data = dataset)
-summary(linear_relationship)
-abline(linear_relationship, col = "red")
-
 # Scatter Plot with Linear Regression Line
 # Ensure the dataset is loaded
 # Example: dataset <- read.csv("your_data.csv")
@@ -89,12 +79,6 @@ abline(v = mean_x, col = "gray", lty = 2)  # Vertical line for mean % Low-Income
 ##################################################################################
 ####################  Figure 3: residual plot                ####################   
 ##################################################################################
-# Plot the residuals
-plot(dataset$percent_of._low_income_students, residuals(linear_relationship))
-
-# Add a horizontal line at zero to indicate the baseline
-abline(h = 0, col = "red")
-
 # Ensure the dataset is loaded
 # Example: dataset <- read.csv("your_data.csv")
 
